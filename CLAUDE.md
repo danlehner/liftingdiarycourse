@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> **IMPORTANT**: Before generating any code, ALWAYS first read the relevant documentation file in the `/docs` directory. Do not write code based on assumptions or prior knowledge — consult the docs first.
+
 @AGENTS.md
 
 ## Commands
@@ -14,6 +16,8 @@ npm run start    # Start production server
 ```
 
 No test framework is configured.
+
+- /docs/ui.md
 
 ## Architecture
 
