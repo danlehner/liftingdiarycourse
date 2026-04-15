@@ -18,6 +18,7 @@ npm run start    # Start production server
 No test framework is configured.
 
 - /docs/ui.md
+- /docs/data-fetching.md
 
 ## Architecture
 

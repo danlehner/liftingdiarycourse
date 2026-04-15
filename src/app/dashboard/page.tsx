@@ -1,77 +1,49 @@
-"use client"
-
-import * as React from "react"
+import { auth } from "@clerk/nextjs/server"
 import { format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+import { getWorkoutsByDate } from "@/data/workouts"
+import { DatePicker } from "./_components/DatePicker"
 
-// Placeholder workout data — replace with real data fetching later
-const MOCK_WORKOUTS = [
-  { id: 1, name: "Back Squat", sets: 4, reps: 5, weight: "100kg" },
-  { id: 2, name: "Romanian Deadlift", sets: 3, reps: 8, weight: "80kg" },
-  { id: 3, name: "Leg Press", sets: 3, reps: 12, weight: "120kg" },
-]
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+  const { userId } = await auth()
+  if (!userId) return null
 
-export default function DashboardPage() {
-  const [date, setDate] = React.useState<Date>(new Date())
-  const [open, setOpen] = React.useState(false)
+  const { date: dateParam } = await searchParams
+  const dateStr = typeof dateParam === "string" ? dateParam : null
+  const selectedDate = dateStr ? new Date(`${dateStr}T00:00:00`) : new Date()
+
+  const workoutList = await getWorkoutsByDate(userId, selectedDate)
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-8">
       <h1 className="mb-6 text-2xl font-semibold">Workout Log</h1>
 
-      {/* Date picker */}
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            className={cn(
-              "w-64 justify-start text-left font-normal",
-              !date && "text-muted-foreground"
-            )}
-          >
-            <CalendarIcon className="mr-2 size-4" />
-            {date ? format(date, "do MMM yyyy") : "Pick a date"}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
-          <Calendar
-            mode="single"
-            selected={date}
-            onSelect={(d) => {
-              if (d) {
-                setDate(d)
-                setOpen(false)
-              }
-            }}
-            initialFocus
-          />
-        </PopoverContent>
-      </Popover>
+      <DatePicker selectedDate={selectedDate} />
 
-      {/* Workout list */}
       <section className="mt-8">
         <h2 className="mb-4 text-lg font-medium text-muted-foreground">
-          Workouts for {format(date, "do MMM yyyy")}
+          Workouts for {format(selectedDate, "do MMM yyyy")}
         </h2>
 
-        {MOCK_WORKOUTS.length === 0 ? (
+        {workoutList.length === 0 ? (
           <p className="text-sm text-muted-foreground">
             No workouts logged for this date.
           </p>
         ) : (
           <ul className="space-y-3">
-            {MOCK_WORKOUTS.map((workout) => (
+            {workoutList.map((workout) => (
               <li
                 key={workout.id}
                 className="flex items-center justify-between rounded-lg border px-4 py-3"
               >
-                <span className="font-medium">{workout.name}</span>
+                <span className="font-medium">
+                  {workout.name ?? "Untitled Workout"}
+                </span>
                 <span className="text-sm text-muted-foreground">
-                  {workout.sets} × {workout.reps} @ {workout.weight}
+                  {format(workout.startedAt, "h:mm a")}
                 </span>
               </li>
             ))}
