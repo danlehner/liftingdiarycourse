@@ -1,5 +1,6 @@
 import { auth } from "@clerk/nextjs/server"
 import { format } from "date-fns"
+import Link from "next/link"
 import { getWorkoutsByDate } from "@/data/workouts"
 import { DatePicker } from "./_components/DatePicker"
 
@@ -35,16 +36,18 @@ export default async function DashboardPage({
         ) : (
           <ul className="space-y-3">
             {workoutList.map((workout) => (
-              <li
-                key={workout.id}
-                className="flex items-center justify-between rounded-lg border px-4 py-3"
-              >
-                <span className="font-medium">
-                  {workout.name ?? "Untitled Workout"}
-                </span>
-                <span className="text-sm text-muted-foreground">
-                  {format(workout.startedAt, "h:mm a")}
-                </span>
+              <li key={workout.id}>
+                <Link
+                  href={`/dashboard/workout/${workout.id}`}
+                  className="flex items-center justify-between rounded-lg border px-4 py-3 hover:bg-accent transition-colors"
+                >
+                  <span className="font-medium">
+                    {workout.name ?? "Untitled Workout"}
+                  </span>
+                  <span className="text-sm text-muted-foreground">
+                    {format(workout.startedAt, "h:mm a")}
+                  </span>
+                </Link>
               </li>
             ))}
           </ul>
