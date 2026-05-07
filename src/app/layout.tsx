@@ -26,19 +26,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
       <body className="min-h-full flex flex-col">
         <ClerkProvider>
           <header>
             <Show when="signed-out">
               <SignInButton mode="modal">
-                <button className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white hover:bg-black/80">
+                <button className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/80">
                   Sign in!
                 </button>
               </SignInButton>
               <SignUpButton mode="modal">
-                <button className="rounded-md bg-white px-4 py-2 text-sm font-medium text-black ring-1 ring-black/10 hover:bg-black/5">
+                <button className="rounded-md bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground ring-1 ring-border hover:bg-secondary/80">
                   Sign up
                 </button>
               </SignUpButton>
