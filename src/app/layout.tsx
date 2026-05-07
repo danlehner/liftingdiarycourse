@@ -34,7 +34,7 @@ export default function RootLayout({
             <Show when="signed-out">
               <SignInButton mode="modal">
                 <button className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white hover:bg-black/80">
-                  Sign in
+                  Sign in!
                 </button>
               </SignInButton>
               <SignUpButton mode="modal">

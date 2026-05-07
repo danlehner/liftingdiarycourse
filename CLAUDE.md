@@ -19,6 +19,9 @@ No test framework is configured.
 
 - /docs/ui.md
 - /docs/data-fetching.md
+- /docs/data-mutations.md
+- /docs/auth.md
+- /docs/routing.md
 
 ## Architecture
 
