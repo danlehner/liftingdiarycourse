@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider, SignInButton, SignUpButton, Show, UserButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeToggle } from "@/components/theme-toggle";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -27,24 +29,28 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <ClerkProvider>
-          <header>
-            <Show when="signed-out">
-              <SignInButton mode="modal">
-                <Button>Sign in</Button>
-              </SignInButton>
-              <SignUpButton mode="modal">
-                <Button variant="outline">Sign up</Button>
-              </SignUpButton>
-            </Show>
-            <Show when="signed-in">
-              <UserButton />
-            </Show>
-          </header>
-          {children}
+          <ThemeProvider>
+            <header>
+              <Show when="signed-out">
+                <SignInButton mode="modal">
+                  <Button>Sign in</Button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <Button variant="outline">Sign up</Button>
+                </SignUpButton>
+              </Show>
+              <Show when="signed-in">
+                <UserButton />
+              </Show>
+              <ThemeToggle />
+            </header>
+            {children}
+          </ThemeProvider>
         </ClerkProvider>
       </body>
     </html>
