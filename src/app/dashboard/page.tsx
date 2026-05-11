@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs/server"
 import { format } from "date-fns"
 import Link from "next/link"
 import { getWorkoutsByDate } from "@/data/workouts"
+import { Button } from "@/components/ui/button"
 import { DatePicker } from "./_components/DatePicker"
 
 export default async function DashboardPage({
@@ -20,7 +21,12 @@ export default async function DashboardPage({
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-8">
-      <h1 className="mb-6 text-2xl font-semibold">Workout Log</h1>
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="text-2xl font-semibold">Workout Log</h1>
+        <Button asChild>
+          <Link href="/dashboard/workout/new">Log New Workout</Link>
+        </Button>
+      </div>
 
       <DatePicker selectedDate={selectedDate} />
 
