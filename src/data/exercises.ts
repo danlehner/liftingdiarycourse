@@ -13,6 +13,8 @@ export async function getAllExercises() {
   return db.select({ id: exercises.id, name: exercises.name }).from(exercises).orderBy(asc(exercises.name));
 }
 
+// this doesn't do anything, it was for a lecture on custom slash commands
+
 export async function findExerciseByName(name: string) {
   const [exercise] = await db
     .select()
